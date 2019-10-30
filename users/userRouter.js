@@ -7,7 +7,7 @@ const User = require('./userDb');
 router.post('/', (req, res) => {
     User.insert(req.body)
     .then(user => {
-        if (req.body.name){
+        if (req.body){
             res.status(201).json(user)
         }else{
             res.status(400).json({message: 'user needs a name '})
@@ -122,12 +122,32 @@ function validateUserId(req, res, next) {
 };
 
 function validateUser(req, res, next) {
+    const user = req.body;
+
+    if(user){
+        next()
+    }else if (user === null) {
+ res.status(400).json({message: 'missing user data'})
+
+    }else{
+        res.status(400).json({message: 'missing required field'})
+    }
 
 };
 
 function validatePost(req, res, next) {
 
+if (req.body){
+    next()
+}else if (req.body === null) {
+    res.status(400).json({message: 'missing post data'})
+}else{
+    res.status(400).json({message: 'missing required field'})
+}
+
 };
 
+module.exports = validatePost;
+module.exports = validateUser;
 module.exports = validateUserId;
 module.exports = router;
