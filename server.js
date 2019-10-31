@@ -2,9 +2,9 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const server = express();
-const validatePost = require('./users/userRouter')
-const validateUser = require('./users/userRouter');
-const validateUserId = require('./users/userRouter');
+// const validatePost = require('./users/userRouter')
+// const validateUser = require('./users/userRouter');
+// const validateUserId = require('./users/userRouter');
 const userRouters = require('./users/userRouter');
 
 server.get('/', (req, res) => {
@@ -21,9 +21,9 @@ function logger(req, res, next) {
 };
 server.use(morgan('dev'));
 server.use(helmet());
-server.use(validateUser);
-server.use(validatePost);
-server.use(validateUserId);
+// server.use(validateUser);
+// server.use(validatePost);
+// server.use(validateUserId);
 server.use(logger);
 
 server.use('/api/users', userRouters);

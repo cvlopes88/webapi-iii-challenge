@@ -4,7 +4,7 @@ const router = express.Router();
 
 const User = require('./userDb');
 
-router.post('/', (req, res) => {
+router.post('/', validateUser, (req, res) => {
     User.insert(req.body)
     .then(user => {
         if (req.body){
@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
 
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validatePost, (req, res) => {
 
    const postInfo = { ...req.body, id: req.params.id };
 
@@ -47,7 +47,7 @@ User.get(req.query)
 })
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res) => {
 
     User.getById(req.params.id)
     .then(users =>{
@@ -91,7 +91,7 @@ User.remove(req.params.id)
 
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validateUserId, (req, res) => {
 
     User.update(req.params.id, req.body)
     .then (user => {
@@ -112,7 +112,7 @@ function validateUserId(req, res, next) {
 
     const userId = req.params.id;
     if (userId){ 
-        if(userId === req.params.id ){
+        if(userId ){
             next();
         }else{
             res.status(404).json({message: 'user does not exist '})
